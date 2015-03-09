@@ -1,0 +1,19 @@
+{
+    "name": "execrot/mongostar",
+    "type": "library",
+    "homepage": "https://github.com/execrot/mongostar",
+    "require": {
+        "php": ">=5.4",
+        "zendframework/zendframework1" : "1.12.*",
+        "ext-mongo": "*"
+    },
+    "autoload": {
+        "psr-0": { "Mongostar_": "src/" }
+    },
+    "authors": [
+        {
+            "name": "Edward Komissarov",
+            "email": "execrot@gmail.com"
+        }
+    ]
+}
