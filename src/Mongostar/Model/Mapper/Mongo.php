@@ -293,6 +293,64 @@ class Mongostar_Model_Mapper_Mongo extends Mongostar_Model_Mapper_Abstract
 		return $result;
 	}
 
+    /**
+     *
+     * @param array   $cond
+     * @param array   $sort
+     * @param integer $count
+     * @param integer $offset
+     *
+     * @return Mongostar_Model_Collection
+     */
+    public function fetchAllOriginCondition(array $cond = null, array $sort = null, $count = null, $offset = null, $hint = NULL)
+    {
+        $query = $this->_make_querySameOrigin($cond, $sort, $count, $offset, $hint);
+
+        $result = $this->_find_by_query($query);
+
+        return $result;
+    }
+
+    /**
+     *
+     * @param array   $cond
+     * @param array   $sort
+     * @param integer $count
+     * @param integer $offset
+     *
+     */
+    protected function _make_querySameOrigin($cond = array(), $sort = array(), $count = null, $offset = null, $hint = null)
+    {
+        $sorting = array();
+        if (!empty($sort))
+        {
+            $sort = $this->translate_to_storage($sort);
+            foreach ($sort as $key => $value)
+            {
+                $sorting[$key] = ($value == 1) ? 1 : -1;
+            }
+        }
+
+        $query = array(
+            'cond' => $cond,
+            'sort' => $sorting
+        );
+
+        if ($count) {
+            $query['limit'] = $count;
+        }
+
+        if ($offset) {
+            $query['offset'] = $offset;
+        }
+
+        if ($hint) {
+            $query['hint'] = $hint;
+        }
+
+        return $query;
+    }
+
 	/**
 	 *
 	 * @param array   $cond
